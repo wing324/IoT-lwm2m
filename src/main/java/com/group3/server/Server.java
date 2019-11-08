@@ -31,8 +31,7 @@ public class Server {
 
         server.getRegistrationService().addListener(new RegistrationListener() {
             public void registered(Registration registration, Registration registration1, Collection<Observation> collection) {
-                System.out.println("New Device: " + registration.getEndpoint());
-                System.out.println("New Device ID: " + registration.getId());
+                System.out.println("New Device Register: " + registration.getEndpoint() + "Device ID is: "+ registration.getId());
 
                 if(registration.getEndpoint().equals("Sound Sensor")){
                     try {
