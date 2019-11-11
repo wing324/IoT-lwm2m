@@ -1,6 +1,6 @@
-package com.group3.clients.lightA;
+package com.group3.wing.lightA;
 
-import com.group3.clients.lightA.objects.LightStatus;
+import com.group3.wing.lightA.objects.LightStatus;
 import org.eclipse.leshan.LwM2mId;
 import org.eclipse.leshan.client.californium.LeshanClient;
 import org.eclipse.leshan.client.californium.LeshanClientBuilder;
@@ -27,13 +27,14 @@ public class LightA {
         models.addAll(ObjectLoader.loadDdfResources("/models", modelPaths));
 
         ObjectsInitializer initializer = new ObjectsInitializer(new StaticModel(models));
-        initializer.setInstancesForObject(LwM2mId.SECURITY, Security.noSec("coap://localhost:5683", 12345));
+        initializer.setInstancesForObject(LwM2mId.SECURITY, Security.noSec("coap://localhost:4466", 12345));
         initializer.setInstancesForObject(LwM2mId.SERVER, new Server(12345, 5 * 60, BindingMode.U, false));
         initializer.setInstancesForObject(LwM2mId.DEVICE, new Device("Wing Leshan", "model12345", "12345", "U"));
         initializer.setInstancesForObject(3002, new LightStatus());
         builder.setObjects(initializer.createAll());
 
         LeshanClient client = builder.build();
+            client.triggerRegistrationUpdate();
         client.start();
     }
 }

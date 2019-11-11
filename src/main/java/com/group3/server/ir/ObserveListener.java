@@ -38,10 +38,11 @@ public class ObserveListener {
                 String sensorValue = ((LwM2mResource)observeResponse.getContent()).getValue().toString();
                 claps = new ClapCount().count(sensorValue);
                 try {
-                    mode = serverRead.readValue(server, server.getRegistrationService().getByEndpoint("Sound Sensor"), 3001, 0, 1);
+                    mode = serverRead.readValue(server, server.getRegistrationService().getByEndpoint("Client1"), 3001, 0, 1);
+                    System.out.println("Mode is: "+mode);
                     if(mode == 1){
                         // setting mode
-                        endpoint = serverRead.readStringValue(server, server.getRegistrationService().getByEndpoint("Sound Sensor"), 3001, 0, 3);
+                        endpoint = serverRead.readStringValue(server, server.getRegistrationService().getByEndpoint("Client1"), 3001, 0, 3);
                         // update endpoint claps in mongoDB
                         mongoDB.updateClaps(endpoint, claps);
                         System.out.println("Setting endpoint: "+endpoint+" to "+claps+" claps");
@@ -50,6 +51,7 @@ public class ObserveListener {
                         MongoCursor<Document> cursor = mongoDB.getEndpointByClaps(claps);
                         if(cursor.hasNext()){
                             endpoint = (String) cursor.next().get("endpoint");
+                            System.out.println("Execute on: "+endpoint);
                             serverExecute.execute(server, server.getRegistrationService().getByEndpoint(endpoint), 3002, 0, 1);
                         } else {
                             System.out.println("Can not find a client with the claps.");

@@ -1,4 +1,4 @@
-package com.group3.clients.sensor.objects;
+package com.group3.wing.sensor.objects;
 
 import org.eclipse.leshan.client.request.ServerIdentity;
 import org.eclipse.leshan.client.resource.BaseInstanceEnabler;

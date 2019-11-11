@@ -54,6 +54,7 @@ public class MongoDBCRUD {
         Document newDocument = new Document();
         newDocument.append("$set", new Document().append("claps", claps));
         Document query = new Document().append("endpoint", endpoint);
+        System.out.println("MongoDB Update: "+endpoint+"  "+claps);
         collection.updateOne(query, newDocument);
     }
 

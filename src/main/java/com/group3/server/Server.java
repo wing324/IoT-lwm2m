@@ -4,6 +4,8 @@ import com.group3.server.ir.ServerObserve;
 import org.eclipse.leshan.core.model.ObjectLoader;
 import org.eclipse.leshan.core.model.ObjectModel;
 import org.eclipse.leshan.core.observation.Observation;
+import org.eclipse.leshan.core.request.ReadRequest;
+import org.eclipse.leshan.core.response.ReadResponse;
 import org.eclipse.leshan.server.californium.LeshanServerBuilder;
 import org.eclipse.leshan.server.californium.impl.LeshanServer;
 import org.eclipse.leshan.server.model.LwM2mModelProvider;
@@ -23,6 +25,7 @@ public class Server {
         models.addAll(ObjectLoader.loadDdfResources("/models/", modelPaths));
         LwM2mModelProvider modelProvider = new VersionedModelProvider(models);
         LeshanServerBuilder builder = new LeshanServerBuilder();
+        builder.setLocalAddress("172.20.10.11", 4466);
         builder.setObjectModelProvider(modelProvider);
         final LeshanServer server = builder.build();
         server.start();
@@ -31,12 +34,14 @@ public class Server {
 
         server.getRegistrationService().addListener(new RegistrationListener() {
             public void registered(Registration registration, Registration registration1, Collection<Observation> collection) {
-                System.out.println("New Device Register: " + registration.getEndpoint() + "Device ID is: "+ registration.getId());
+                System.out.println("New Device Register: " + registration.getEndpoint() + "  Device ID is: "+ registration.getId());
 
-                if(registration.getEndpoint().equals("Sound Sensor")){
+                if(registration.getEndpoint().equals("Client1")){
                     try {
                         // Observe An Object
-                        serverObserve.observe(server, server.getRegistrationService().getByEndpoint("Sound Sensor"), 3001, 0, 2);
+//                        ReadResponse response = server.send(registration, new ReadRequest(3001,0,1));
+//                        System.out.println(response.toString());
+                        serverObserve.observe(server, server.getRegistrationService().getByEndpoint("Client1"), 3001, 0, 2);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
