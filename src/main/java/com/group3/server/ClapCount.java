@@ -4,7 +4,7 @@ public class ClapCount {
     public int count(String sensorValue){
         int result = 0;
         int previousValue = Integer.MIN_VALUE;
-        for(String s : sensorValue.split(",")){
+        for(String s : sensorValue.split(",cx")){
             int value = Integer.parseInt(s);
             if(previousValue < 700 && value >=700){
                 result++;

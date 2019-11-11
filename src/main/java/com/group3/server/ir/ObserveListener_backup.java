@@ -5,7 +5,6 @@ import com.group3.server.dm.ServerExecute;
 import com.group3.server.dm.ServerRead;
 import com.group3.tools.MongoDBCRUD;
 import com.mongodb.client.MongoCursor;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import org.bson.Document;
 import org.eclipse.leshan.core.node.LwM2mResource;
 import org.eclipse.leshan.core.observation.Observation;
@@ -14,7 +13,7 @@ import org.eclipse.leshan.server.californium.impl.LeshanServer;
 import org.eclipse.leshan.server.observation.ObservationListener;
 import org.eclipse.leshan.server.registration.Registration;
 
-public class ObserveListener {
+public class ObserveListener_backup {
     private ServerRead serverRead = new ServerRead();
     private ServerExecute serverExecute = new ServerExecute();
     private int claps;
@@ -44,7 +43,7 @@ public class ObserveListener {
                         endpoint = serverRead.readStringValue(server, server.getRegistrationService().getByEndpoint("Sound Sensor"), 3001, 0, 3);
                         // update endpoint claps in mongoDB
                         mongoDB.updateClaps(endpoint, claps);
-                        System.out.println("Setting endpoint: "+endpoint+" to "+claps+" claps");
+                        System.out.println("Setting endpoint: "+endpoint+" to "+claps+" dclaps");
                     } else {
                         // non-setting mode
                         MongoCursor<Document> cursor = mongoDB.getEndpointByClaps(claps);
